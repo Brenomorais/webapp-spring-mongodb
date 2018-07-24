@@ -1,4 +1,4 @@
-package com.brenomorais.escola.escola;
+package com.brenomorais.escola;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

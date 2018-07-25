@@ -27,10 +27,11 @@ public class ConnectionDataBase {
 
 		  AlunoCodec alunoCodec = new AlunoCodec(codec);
 
+		  //codec para codificar e decodificar
 		  CodecRegistry registro = CodecRegistries.fromRegistries(
 		      MongoClient.getDefaultCodecRegistry(), 
 		      CodecRegistries.fromCodecs(alunoCodec));
-
+		
 		  MongoClientOptions options = MongoClientOptions.builder().codecRegistry(registro).build();
 
 		  mongoClient = new MongoClient(local, options);

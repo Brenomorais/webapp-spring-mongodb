@@ -3,12 +3,14 @@ package com.brenomorais.escola.repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.brenomorais.escola.models.Aluno;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 
 @Repository
 public class AlunoRepository {
@@ -38,5 +40,15 @@ public class AlunoRepository {
 		}
 
 		return alunosEncontrados;
+	}
+	
+	public Aluno obterAlunoPor(String id) {
+
+		conexao.CreateConnection();
+
+		MongoCollection<Aluno> alunos = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
+		Aluno aluno = alunos.find(Filters.eq("_id", new ObjectId(id))).first();
+		
+		return aluno;
 	}
 }

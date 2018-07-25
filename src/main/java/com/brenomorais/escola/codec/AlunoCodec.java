@@ -18,6 +18,7 @@ import org.bson.types.ObjectId;
 import com.brenomorais.escola.models.Aluno;
 import com.brenomorais.escola.models.Curso;
 import com.brenomorais.escola.models.Habilidade;
+import com.brenomorais.escola.models.Nota;
 
 public class AlunoCodec implements CollectibleCodec<Aluno> {
 
@@ -29,13 +30,15 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 
 	@Override
 	public void encode(BsonWriter writer, Aluno aluno, EncoderContext encoder) {
-		// Convert aluno em document para o mongo
+		// Convert object for document mongo
 
 		ObjectId id = aluno.getId();
 		String nome = aluno.getNome();
 		Date dataNascimento = aluno.getDataNascimento();
 		Curso curso = aluno.getCurso();
 		List<Habilidade> habilidades = aluno.getHabilidades();
+		List<Nota> notas = aluno.getNotas();
+		
 		Document document = new Document();
 
 		document.put("_id", id);
@@ -52,6 +55,15 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 			}			
 			document.put("habilidades", habilidadesDocument);
 		}
+		
+		if(notas != null) {
+			List<Double> notasParaSalvar = new ArrayList<>();
+			for (Nota nota : notas) {
+				notasParaSalvar.add(nota.getValor());
+			}
+			document.put("notas",notasParaSalvar);
+		}
+				
 		codec.encode(writer, document, encoder);
 	}
 
@@ -71,13 +83,35 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 		aluno.setId(document.getObjectId("_id"));
 		aluno.setNome(document.getString("nome"));
 		aluno.setDataNascimento(document.getDate("data_nascimento"));
+		
 		Document curso = (Document) document.get("curso");
 
 		if (curso != null) {
 			String nomeCurso = curso.getString("nome");
 			aluno.setCurso(new Curso(nomeCurso));
 		}
-
+		
+		List<Double> notas = (List<Double>) document.get("notas");
+		
+		if(notas != null) {
+			List<Nota> notasDoAluno = new ArrayList<>();
+			for (Double nota : notas) {
+				notasDoAluno.add(new Nota(nota));
+			}
+			aluno.setNotas(notasDoAluno);
+		}
+		
+		List<Document> habilidades = (List<Document>) document.get("habilidades");
+		
+		if(habilidades != null) {
+			List<Habilidade> habilidadesDoAluno = new ArrayList<>();
+			for (Document documentHabilidade : habilidades) {
+				habilidadesDoAluno.add(new Habilidade(documentHabilidade.getString("nome"), 
+						document.getString("nivel")));				
+			}
+			aluno.setHabilidades(habilidadesDoAluno);
+		}
+		
 		return aluno;		
 	}
 

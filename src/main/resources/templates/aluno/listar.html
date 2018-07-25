@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>Escolalura</title>
 
-<link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="../../materialize/css/materialize.min.css" media="screen,projection" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
@@ -33,13 +33,13 @@
 						<span th:text="${#dates.format(aluno.dataNascimento, 'dd/MM/yyyy')}"></span></td>
 					<td style="text-align: center;">
 						<a th:href="@{'/aluno/visualizar/' + ${aluno.id}}" title="Visualizar">
-							<i class="tiny material-icons ">perm_contact_calendar</i>
+							<i class="tiny material-icons ">visibility</i>
 						</a> 
 						<a th:href="@{'/habilidade/cadastrar/' + ${aluno.id}}"	title="Cadastrar habilidade"> 
-							<i class="tiny material-icons ">verified_user</i>
+							<i class="tiny material-icons ">note_add</i>
 						</a>
-						<a th:href="@{'/nota/salvar/' + ${aluno.id}}" title="Notas">
-							<i lass="tiny material-icons ">spellcheck</i>
+						<a th:href="@{'/nota/cadastrar/' + ${aluno.id}}" title="Notas">
+							<i class="tiny material-icons ">spellcheck</i>
 						</a>
 					</td>
 				</tr>
@@ -49,6 +49,6 @@
 	</div>
 	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>	
-	<script type="text/javascript" src="../materialize/js/materialize.min.js"></script>
+	<script type="text/javascript" src="../../materialize/js/materialize.min.js"></script>
 </body>
 </html>

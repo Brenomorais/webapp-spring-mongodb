@@ -55,6 +55,9 @@ public class Aluno {
 	}
 
 	public List<Nota> getNotas() {
+		if(notas == null) {
+			notas = new ArrayList<Nota>();
+		}
 		return notas;
 	}
 
@@ -84,5 +87,13 @@ public class Aluno {
 		aluno.setHabilidades(habilidades);
 		
 		return aluno;		
+	}
+	
+	public Aluno adicionar(Aluno aluno, Nota nota) {
+		List<Nota> notas = aluno.getNotas();
+		notas.add(nota);
+		aluno.setNotas(notas);
+		
+		return aluno;
 	}
 }

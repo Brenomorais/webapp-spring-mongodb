@@ -3,6 +3,7 @@ package com.brenomorais.escola.repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,14 @@ public class AlunoRepository {
 	public void salvar(Aluno aluno) {
 		conexao.CreateConnection();
 		MongoCollection<Aluno> alunos = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
-		alunos.insertOne(aluno);
+		
+		if(aluno.getId() == null) {
+			alunos.insertOne(aluno);
+		}else {
+			alunos.updateOne(Filters.eq("_id", aluno.getId()), new Document("$set", aluno));
+		}
+		
+		conexao.getMongoClient().close();
 	}
 
 	public List<Aluno> obterTodosAlunos() {

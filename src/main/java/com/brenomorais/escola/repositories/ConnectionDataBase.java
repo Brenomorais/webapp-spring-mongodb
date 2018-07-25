@@ -51,9 +51,12 @@ public class ConnectionDataBase {
 		this.mongoDataBase = mongoDataBase;
 	}
 
-	public ConnectionDataBase(MongoClient mongoClient) {
-		super();
-		this.mongoClient = mongoClient;
+	public MongoClient getMongoClient() {
+		return mongoClient;
 	}
+
+	public void setMongoClient(MongoClient mongoClient) {
+		this.mongoClient = mongoClient;
+	}	
 	
 }

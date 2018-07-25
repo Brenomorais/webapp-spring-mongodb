@@ -1,5 +1,6 @@
 package com.brenomorais.escola.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +63,9 @@ public class Aluno {
 	}
 
 	public List<Habilidade> getHabilidades() {
+		if(habilidades == null) {
+			habilidades = new ArrayList<Habilidade>();
+		}
 		return habilidades;
 	}
 
@@ -72,5 +76,13 @@ public class Aluno {
 	public Aluno criarId() {
 		setId(new ObjectId());
 		return this;
+	}
+
+	public Aluno adicionar(Aluno aluno, Habilidade habilidade) {		
+		List<Habilidade> habilidades = aluno.getHabilidades();
+		habilidades.add(habilidade);
+		aluno.setHabilidades(habilidades);
+		
+		return aluno;		
 	}
 }

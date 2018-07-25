@@ -1,6 +1,8 @@
 package com.brenomorais.escola.codec;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.BsonReader;
 import org.bson.BsonString;
@@ -15,6 +17,7 @@ import org.bson.types.ObjectId;
 
 import com.brenomorais.escola.models.Aluno;
 import com.brenomorais.escola.models.Curso;
+import com.brenomorais.escola.models.Habilidade;
 
 public class AlunoCodec implements CollectibleCodec<Aluno> {
 
@@ -32,14 +35,23 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 		String nome = aluno.getNome();
 		Date dataNascimento = aluno.getDataNascimento();
 		Curso curso = aluno.getCurso();
-
+		List<Habilidade> habilidades = aluno.getHabilidades();
 		Document document = new Document();
 
 		document.put("_id", id);
 		document.put("nome", nome);
 		document.put("data_nascimento", dataNascimento);
 		document.put("curso", new Document("nome", curso.getNome()));
-
+		
+		if(habilidades != null) {
+			List<Document> habilidadesDocument = new ArrayList<>();
+			
+			for(Habilidade habilidade : habilidades) {
+				habilidadesDocument.add(new Document("nome", habilidade.getNome())
+						.append("nivel", habilidade.getNivel()));
+			}			
+			document.put("habilidades", habilidadesDocument);
+		}
 		codec.encode(writer, document, encoder);
 	}
 

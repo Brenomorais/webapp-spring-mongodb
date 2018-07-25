@@ -19,8 +19,8 @@ import com.brenomorais.escola.models.Curso;
 public class AlunoCodec implements CollectibleCodec<Aluno> {
 
 	private Codec<Document> codec;
-	
-	public AlunoCodec(Codec<Document> codec) {		
+
+	public AlunoCodec(Codec<Document> codec) {
 		this.codec = codec;
 	}
 
@@ -50,9 +50,23 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 	}
 
 	@Override
-	public Aluno decode(BsonReader reader, DecoderContext decoderContext) {
+	public Aluno decode(BsonReader reader, DecoderContext decoder) {
 		// Convert document em objeto java
-		return null;
+
+		Document document = codec.decode(reader, decoder);
+		Aluno aluno = new Aluno();
+
+		aluno.setId(document.getObjectId("_id"));
+		aluno.setNome(document.getString("nome"));
+		aluno.setDataNascimento(document.getDate("data_nascimento"));
+		Document curso = (Document) document.get("curso");
+
+		if (curso != null) {
+			String nomeCurso = curso.getString("nome");
+			aluno.setCurso(new Curso(nomeCurso));
+		}
+
+		return aluno;		
 	}
 
 	@Override

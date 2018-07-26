@@ -42,6 +42,10 @@ public class ConnectionDataBase {
 		}
 		
 	}
+	
+	public void CloseConnection() {
+		this.mongoClient.close();
+	}
 
 	public MongoDatabase getMongoDataBase() {
 		return mongoDataBase;

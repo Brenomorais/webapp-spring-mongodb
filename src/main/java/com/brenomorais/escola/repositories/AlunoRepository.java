@@ -21,6 +21,7 @@ public class AlunoRepository {
 
 	public void salvar(Aluno aluno) {
 		conexao.CreateConnection();
+		
 		MongoCollection<Aluno> alunos = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
 		
 		if(aluno.getId() == null) {
@@ -29,25 +30,22 @@ public class AlunoRepository {
 			alunos.updateOne(Filters.eq("_id", aluno.getId()), new Document("$set", aluno));
 		}
 		
-		conexao.getMongoClient().close();
+		conexao.CloseConnection();
 	}
 
 	public List<Aluno> obterTodosAlunos() {
 
 		conexao.CreateConnection();
+		
 		MongoCollection<Aluno> alunos = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
-
 		MongoCursor<Aluno> resultado = alunos.find().iterator();
 
-		List<Aluno> alunosEncontrados = new ArrayList<>();
+		List<Aluno> alunosEncontrados = popularAlunos(resultado);
 		
-		while (resultado.hasNext()) {
-			
-			Aluno aluno = resultado.next();
-			alunosEncontrados.add(aluno);
-		}
+		conexao.CloseConnection();
 
-		return alunosEncontrados;
+		return alunosEncontrados;		
+		
 	}
 	
 	public Aluno obterAlunoPor(String id) {
@@ -57,6 +55,35 @@ public class AlunoRepository {
 		MongoCollection<Aluno> alunos = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
 		Aluno aluno = alunos.find(Filters.eq("_id", new ObjectId(id))).first();
 		
+		conexao.CloseConnection();
+		
 		return aluno;
+	}
+	
+	public List<Aluno> pesquisarPorNome(String nome) {
+		
+		conexao.CreateConnection();
+		
+		MongoCollection<Aluno> alunosCollection = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
+		MongoCursor<Aluno> resultados = alunosCollection.find(Filters.eq("nome", nome), Aluno.class).iterator();
+		
+		List<Aluno> alunos = popularAlunos(resultados);
+		
+		this.conexao.getMongoClient().close();
+		
+		conexao.CloseConnection();		
+
+		return alunos;		
+	}
+	
+	private List<Aluno> popularAlunos(MongoCursor<Aluno> resultados) {
+
+		List<Aluno> alunos = new ArrayList<>();
+
+		while (resultados.hasNext()) {
+			alunos.add(resultados.next());
+		}			
+		
+		return alunos;
 	}
 }

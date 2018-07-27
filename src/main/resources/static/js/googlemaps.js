@@ -13,8 +13,8 @@ function initMap() {
 
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center : brasil,
-		scrollwheel : false,
-		zoom : 4
+		scrollwheel : true,
+		zoom : 14
 	});
 	
 	for (index = 0; index < alunos.length; ++index) {

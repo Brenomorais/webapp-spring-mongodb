@@ -12,6 +12,9 @@ import com.brenomorais.escola.models.Aluno;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.model.geojson.Position;
 
 @Repository
 public class AlunoRepository {
@@ -105,6 +108,22 @@ public class AlunoRepository {
 		conexao.CloseConnection();		
 
 		return alunos;
+	}
+	
+	public List<Aluno> pesquisaPorGeolocalizacao(Aluno aluno) {
+	    
+		conexao.CreateConnection();
+		
+	    MongoCollection<Aluno> alunoCollection = this.conexao.getMongoDataBase().getCollection("alunos", Aluno.class);
+	    alunoCollection.createIndex(Indexes.geo2dsphere("contato"));
 
+	    List<Double> coordinates = aluno.getContato().getCoordinates();
+	    Point pontoReferencia = new Point(new Position(coordinates.get(0), coordinates.get(1)));
+
+	    MongoCursor<Aluno> resultados = alunoCollection.find(Filters.nearSphere("contato", pontoReferencia, 2000.0, 0.0)).limit(2).skip(1).iterator();
+	    List<Aluno> alunos = popularAlunos(resultados);
+
+		conexao.CloseConnection();	
+	    return alunos;
 	}
 }

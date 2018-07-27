@@ -2,7 +2,6 @@
 
 * Spring Boot MVC
 * Maven
-* Java 8
+* Java8
 * MongoDB
-* Materialize Design
 * Others

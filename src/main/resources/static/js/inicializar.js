@@ -1,6 +1,6 @@
 $(function() {
-
-	$(document).ready(function() {
+	
+	$( document ).ready(function() {
 		
 		$('.datepicker').pickadate({
 		    monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -15,10 +15,10 @@ $(function() {
 		    labelMonthSelect: 'Selecione um mês',
 		    labelYearSelect: 'Selecione um ano',
 		    selectMonths: true, 
-		    selectYears: 20,
-		    format: 'dd/mm/yyyy'
+		    selectYears: 15,
+		    format: 'yyyy/mm/dd'	    
 		 });
 		
 		$('select').material_select();
 	});
-});
+})

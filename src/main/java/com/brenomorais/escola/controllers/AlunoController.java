@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.brenomorais.escola.models.Aluno;
+import com.brenomorais.escola.models.Contato;
 import com.brenomorais.escola.repositories.AlunoRepository;
+import com.brenomorais.escola.service.GeolocalizacaoService;
 
 @Controller
 public class AlunoController {
@@ -21,6 +23,8 @@ public class AlunoController {
 	@Autowired
 	private AlunoRepository repositorio;
 	
+	@Autowired
+	private GeolocalizacaoService geolocalizacaoService;
 	
 	@GetMapping("/aluno/cadastrar")
 	public String cadastrar(Model model) {		
@@ -29,11 +33,18 @@ public class AlunoController {
 	}
 	
 	@PostMapping("/aluno/salvar")
-	public String salvar(@ModelAttribute Aluno aluno) {
-		System.out.println(aluno);
+	public String salvar(@ModelAttribute Aluno aluno){
+	  try {
+	    List<Double> latELong = geolocalizacaoService.obterLatELongPor(aluno.getContato());
+	    aluno.getContato().setCoordinates(latELong);
+	    repositorio.salvar(aluno);
+	  } catch (Exception e) {
+	    System.out.println("Endereco nao localizado");
+	    e.printStackTrace();
+	  } 
 
-		repositorio.salvar(aluno);		
-		return "redirect:/";
+	  System.out.println(aluno);
+	  return "redirect:/";
 	}
 	
 	@GetMapping("/aluno/listar")

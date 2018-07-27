@@ -4,11 +4,9 @@
 <meta charset="UTF-8" />
 <title>WebEscola</title>
 
-<link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="../../materialize/css/materialize.min.css" media="screen,projection" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet" />
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="../js/inicializar.js"></script>
 </head>
 <body class="grey lighten-3">
 
@@ -30,8 +28,8 @@
           
           <div class="row">
           	<div class="input-field col s12">
-              <input id="last_name" type="date" class="datepicker" th:field="${aluno.dataNascimento}" disabled="disabled"/>
-              <label for="last_name">Data de Nascimento:</label>
+              <input id="last_name" type="text" class="datepicker" th:field="${aluno.dataNascimento}" disabled="disabled"/>
+              <label for="last_name" class="active">Data de Nascimento</label>
           	</div>
           </div>
           

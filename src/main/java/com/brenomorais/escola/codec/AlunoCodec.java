@@ -16,6 +16,7 @@ import org.bson.codecs.EncoderContext;
 import org.bson.types.ObjectId;
 
 import com.brenomorais.escola.models.Aluno;
+import com.brenomorais.escola.models.Contato;
 import com.brenomorais.escola.models.Curso;
 import com.brenomorais.escola.models.Habilidade;
 import com.brenomorais.escola.models.Nota;
@@ -38,6 +39,7 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 		Curso curso = aluno.getCurso();
 		List<Habilidade> habilidades = aluno.getHabilidades();
 		List<Nota> notas = aluno.getNotas();
+		Contato contato = aluno.getContato();
 		
 		Document document = new Document();
 
@@ -62,6 +64,19 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 				notasParaSalvar.add(nota.getValor());
 			}
 			document.put("notas",notasParaSalvar);
+		}
+		
+		//Para coordenadas do contato
+		
+		List<Double> coordinates = new ArrayList<Double>();
+
+		document.put("contato", new Document()
+			    .append("endereco" , contato.getEndereco())
+			    .append("coordinates", coordinates)
+			    .append("type", contato.getType()));
+		
+		for (Double location : contato.getCoordinates()) {
+			coordinates.add(location);
 		}
 				
 		codec.encode(writer, document, encoder);
@@ -111,6 +126,15 @@ public class AlunoCodec implements CollectibleCodec<Aluno> {
 			}
 			aluno.setHabilidades(habilidadesDoAluno);
 		}
+		
+		 Document contato = (Document) document.get("contato");
+		 
+		if (contato != null) {
+			String endereco = contato.getString("contato");
+			List<Double> coordinates = (List<Double>) contato.get("coordinates");
+			aluno.setContato(new Contato(endereco, coordinates));
+		}
+
 		
 		return aluno;		
 	}

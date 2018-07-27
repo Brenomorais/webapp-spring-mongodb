@@ -13,7 +13,6 @@ public class Aluno {
 	
 	private String nome;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataNascimento;
 	
 	private Curso curso;
@@ -21,6 +20,8 @@ public class Aluno {
 	private List<Nota> notas;
 	
 	private List<Habilidade> habilidades;
+	
+	private Contato contato;
 
 	public ObjectId getId() {
 		return id;
@@ -75,6 +76,14 @@ public class Aluno {
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
 	}
+	
+	public Contato getContato() {
+		return contato;
+	}
+
+	public void setContato(Contato contato) {
+		this.contato = contato;
+	}	
 
 	public Aluno criarId() {
 		setId(new ObjectId());
@@ -95,5 +104,6 @@ public class Aluno {
 		aluno.setNotas(notas);
 		
 		return aluno;
-	}
+	}	
+	
 }

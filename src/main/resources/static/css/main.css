@@ -5,3 +5,8 @@
 	height: 500px;
 	border: 1px solid;
 }
+
+.header-title{	
+	font-family: 'Orbitron', sans-serif;
+	text-shadow: 0.0em 0.1em 0.1em white;	
+}

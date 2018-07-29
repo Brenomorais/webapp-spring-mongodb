@@ -18,7 +18,12 @@
       <form class="col s12" action="#" th:action="@{'/nota/salvar/' + ${aluno.id}}" th:object="${nota}" method="post">
         
         <div class="section">
-          <h5>Notas</h5>
+        
+          <h5>Notas:</h5>
+          
+           <div class="section">
+         	 <a href="/"><i class="tiny material-icons ">keyboard_return</i>Voltar</a>    
+         	</div>   
           
           <div class="row">
             <div class="input-field col s12">

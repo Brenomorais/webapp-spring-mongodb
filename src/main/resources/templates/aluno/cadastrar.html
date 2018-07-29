@@ -13,11 +13,11 @@
 </head>
 <body class="grey lighten-3">
 <div id="formularioEdicao" class="container">
-	<h3 class="main-title center">Cadastrar Aluno</h3>
+	<h3 class="main-title center">Cadastrar Aluno</h3>	
 		<div class="row">
 			<form class="col s12" action="#" th:action="@{/aluno/salvar}" th:object="${aluno}" method="post">
 				<div class="section">
-					<h5>Dados Básicos</h5>
+					<h5>Dados Básicos:</h5><a href="/"><i class="tiny material-icons">keyboard_return</i>Voltar</a>
 					<div class="row">
 						<div class="input-field col s12">
 				        	<input id="nome" type="text" th:field="*{nome}" />

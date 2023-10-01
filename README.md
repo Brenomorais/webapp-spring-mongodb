@@ -1,4 +1,4 @@
-# WebApp: Main dependencies
+# WebApp: Spring com MongoDB
 
 * Spring Boot MVC
 * Maven
